@@ -1,0 +1,26 @@
+body {
+  background-color: #f0f0f0;
+}
+
+.header-container {
+  background-color: rgb(24, 25, 26);
+}
+
+.header-container h1 {
+  color: rgb(245, 197, 24);
+}
+
+.movie-thumbnail {
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.movie-thumbnail:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.movie-thumbnail a {
+  min-width: 300px;
+  min-height: 450px;
+}
