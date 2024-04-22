@@ -61,6 +61,25 @@ const AppHeader = (props) => {
   );
 };
 
+const MovieList = (props) => {
+  return (
+    <div className="container">
+      <div className="row">
+        {props.movies.length === 0 ? (
+          <p className="text-center">
+            Enter keywords in the search bar and hit the 'Enter' button to find
+            relevant movies.
+          </p>
+        ) : (
+          props.movies.map((movie, i) => (
+            <MovieCard key={movie.imdbID} movie={movie} />
+          ))
+        )}
+      </div>
+    </div>
+  );
+};
+
 const MovieCard = (props) => {
   return (
     <div className="col-md-4 mb-3">
@@ -83,25 +102,6 @@ const MovieCard = (props) => {
           <h6 className="card-title">{props.movie.Title}</h6>
           <p className="card-text">{props.movie.Year}</p>
         </div>
-      </div>
-    </div>
-  );
-};
-
-const MovieList = (props) => {
-  return (
-    <div className="container">
-      <div className="row">
-        {props.movies.length === 0 ? (
-          <p className="text-center">
-            Enter keywords in the search bar and hit the 'Enter' button to find
-            relevant movies.
-          </p>
-        ) : (
-          props.movies.map((movie, i) => (
-            <MovieCard key={movie.imdbID} movie={movie} />
-          ))
-        )}
       </div>
     </div>
   );
