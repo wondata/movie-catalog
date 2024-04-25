@@ -6,6 +6,7 @@ import axios from "axios";
 function App() {
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -14,7 +15,13 @@ function App() {
       axios
         .get(`${baseUrl}&s=${searchTerm}`)
         .then((response) => {
-          const topThreeMovies = response.data?.Search?.slice(0, 3);
+          if (response.data?.Response === "False") {
+            setError(response.data?.Error);
+          }
+          const orderedList = response.data?.Search?.sort(
+            (a, b) => b.Year - a.Year
+          );
+          const topThreeMovies = orderedList?.slice(0, 3);
 
           setMovies(topThreeMovies || []);
         })
@@ -34,7 +41,7 @@ function App() {
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
       />
-      <MovieList movies={movies} />
+      <MovieList movies={movies} error={error} />
     </div>
   );
 }
@@ -65,6 +72,11 @@ const MovieList = (props) => {
   return (
     <div className="container">
       <div className="row">
+        {props.movies.length === 0 && props.error !== "" ? (
+          <p>{props.error}</p>
+        ) : (
+          <></>
+        )}
         {props.movies.length === 0 ? (
           <p className="text-center">
             Enter keywords in the search bar and hit the 'Enter' button to find
@@ -85,7 +97,7 @@ const MovieCard = (props) => {
     <div className="col-md-4 mb-3">
       <div className="card movie-thumbnail">
         <a
-          href={props.movie.Poster}
+          href={"https://www.imdb.com/title/" + props.movie.imdbID}
           target="_blank"
           rel="noopener noreferrer"
           style={{ display: "block", width: "100%", height: "100%" }}
